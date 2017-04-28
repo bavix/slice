@@ -1,0 +1,20 @@
+{
+  "name": "bavix/slice",
+  "description": "Slice",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "REZ1DENT3",
+      "email": "info@babichev.net"
+    }
+  ],
+  "require": {
+    "bavix/iterator": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Bavix\\": "src/"
+    }
+  }
+}
