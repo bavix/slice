@@ -88,6 +88,16 @@ class Slice extends Iterator
     }
 
     /**
+     * @param string $offset
+     *
+     * @return Slice
+     */
+    public function getSlice($offset)
+    {
+        return $this->make($this->getRequired($offset));
+    }
+
+    /**
      * @param array $data
      *
      * @return Slice
