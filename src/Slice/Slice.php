@@ -17,7 +17,7 @@ class Slice extends Iterator
      */
     public function __construct(array $data, $parameters = null)
     {
-        $this->setData($data);
+        parent::__construct($data);
 
         if (null !== $parameters)
         {
