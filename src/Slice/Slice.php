@@ -26,6 +26,31 @@ class Slice extends Iterator
     }
 
     /**
+     * @param bool $recursive
+     *
+     * @return array
+     */
+    public function asArray($recursive = true)
+    {
+        if (!$recursive)
+        {
+            return $this->data;
+        }
+
+        $results = [];
+
+        foreach (parent::asArray() as $key => $data)
+        {
+            $results[$key] =
+                $data instanceof self ?
+                    $data->asArray($recursive) :
+                    $data;
+        }
+
+        return $results;
+    }
+
+    /**
      * @param Slice|array $slice
      */
     protected function walk($slice)
