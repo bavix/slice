@@ -26,13 +26,13 @@ class Slice extends Iterator
     }
 
     /**
-     * @param bool $recursive
+     * @param int  $depth
      *
      * @return array
      */
-    public function asArray($recursive = true)
+    public function asArray($depth = INF)
     {
-        if (!$recursive)
+        if (!$depth || $depth <= 0)
         {
             return $this->data;
         }
@@ -43,7 +43,7 @@ class Slice extends Iterator
         {
             $results[$key] =
                 $data instanceof self ?
-                    $data->asArray($recursive) :
+                    $data->asArray(is_bool($data) ? INF : --$depth) :
                     $data;
         }
 
