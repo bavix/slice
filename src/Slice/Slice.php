@@ -82,11 +82,19 @@ class Slice extends Iterator
     }
 
     /**
+     * @return array
+     */
+    public function keys()
+    {
+        return Arr::getKeys($this->data);
+    }
+
+    /**
      * @return Slice[]
      */
     public function asObject()
     {
-        return \iterator_to_array($this->asGenerator());
+        return Arr::iterator($this->asGenerator());
     }
 
     /**
