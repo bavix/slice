@@ -176,4 +176,17 @@ class SliceTest extends Unit
         }
     }
 
+    public function testFrom()
+    {
+        $example = Slice::from($result = [1, 2, 3]);
+
+        $this->assertEquals($example, Slice::from($example));
+        $this->assertInstanceOf(Slice::class, Slice::from($example));
+
+        $this->assertEquals(
+            $example->asArray(),
+            $result
+        );
+    }
+
 }

@@ -26,6 +26,23 @@ class Slice extends Iterator
     }
 
     /**
+     * @param array|\Traversable $data
+     *
+     * @return self
+     */
+    public static function from($data): self
+    {
+        if ($data instanceof self)
+        {
+            return $data;
+        }
+
+        return new static(
+            Arr::iterator($data)
+        );
+    }
+
+    /**
      * @param int  $depth
      *
      * @return array
