@@ -79,7 +79,8 @@ class Slice extends Iterator
 
         Arr::walkRecursive($this->data, function (&$value) use ($slice)
         {
-            if (\is_string($value) && $value{0} === '%' &&
+            if (!empty($value) && 
+                \is_string($value) && $value{0} === '%' &&
                 $value{\strlen($value) - 1} === '%' &&
                 \substr_count($value, '%') === 2)
             {
