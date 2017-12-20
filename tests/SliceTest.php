@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Bavix\Slice\Raw;
 use Bavix\Slice\Slice;
 use Bavix\Tests\Unit;
 
@@ -17,6 +18,7 @@ class SliceTest extends Unit
      * @var array
      */
     protected $params = [
+        'raw'     => 'raw data',
         'name'    => 'bavix/slice',
         'license' => 'MIT',
         'author'  => [
@@ -28,14 +30,7 @@ class SliceTest extends Unit
     /**
      * @var array
      */
-    protected $data = [
-        'name'    => '%name%',
-        'license' => '%license%',
-        'author'  => [
-            'name'  => '%author.name%',
-            'email' => '%author.email%',
-        ],
-    ];
+    protected $data;
 
     protected $matrix = [
         [1, 2, 3, 4],
@@ -46,6 +41,16 @@ class SliceTest extends Unit
 
     public function setUp()
     {
+        $this->data = [
+            'raw'     => new Raw('%raw%'),
+            'name'    => '%name%',
+            'license' => '%license%',
+            'author'  => [
+                'name'  => '%author.name%',
+                'email' => '%author.email%',
+            ],
+        ];
+
         parent::setUp();
         $this->slice = new Slice($this->data, $this->params);
     }
@@ -62,6 +67,21 @@ class SliceTest extends Unit
 
     public function testAsArray()
     {
+        $this->assertSame(
+            '%raw%',
+            $this->slice['raw']
+        );
+
+        $this->assertNotSame(
+            $this->params['raw'],
+            $this->slice['raw']
+        );
+
+        unset(
+            $this->params['raw'],
+            $this->slice['raw']
+        );
+
         $this->assertArraySubset(
             $this->params,
             $this->slice->asArray()
@@ -121,6 +141,7 @@ class SliceTest extends Unit
         $this->assertTrue(isset($this->slice['name']));
         $this->assertFalse(isset($this->slice[__FUNCTION__]));
     }
+
     public function testOffsetSet()
     {
         $this->slice['name'] = __FUNCTION__;

@@ -2,9 +2,10 @@
 
 namespace Bavix\Slice;
 
-use Bavix\Helpers\Arr;
-use Bavix\Iterator\Iterator;
 use Bavix\Exceptions;
+use Bavix\Helpers\Arr;
+use Bavix\Helpers\Str;
+use Bavix\Iterator\Iterator;
 
 class Slice extends Iterator
 {
@@ -43,7 +44,7 @@ class Slice extends Iterator
     }
 
     /**
-     * @param int  $depth
+     * @param int|bool $depth
      *
      * @return array
      */
@@ -60,7 +61,7 @@ class Slice extends Iterator
         {
             $results[$key] =
                 $data instanceof self ?
-                    $data->asArray(is_bool($data) ? INF : --$depth) :
+                    $data->asArray(\is_bool($depth) ? INF : --$depth) :
                     $data;
         }
 
@@ -72,21 +73,32 @@ class Slice extends Iterator
      */
     protected function walk($slice)
     {
-        if (is_array($slice))
+        if (\is_array($slice))
         {
             $slice = $this->make($slice);
         }
 
-        Arr::walkRecursive($this->data, function (&$value) use ($slice)
-        {
-            if (!empty($value) && 
-                \is_string($value) && $value{0} === '%' &&
-                $value{\strlen($value) - 1} === '%' &&
+        Arr::walkRecursive($this->data, function (&$value) use ($slice) {
+
+            if (\is_object($value) && $value instanceof Raw)
+            {
+                $value = $value->getData();
+                return;
+            }
+
+            if (empty($value) || !\is_string($value))
+            {
+                return;
+            }
+
+            if (Str::first($value) === '%' &&
+                Str::last($value) === '%' &&
                 \substr_count($value, '%') === 2)
             {
-                $path  = \substr($value, 1, -1);
+                $path  = Str::sub($value, 1, -1);
                 $value = $slice->getRequired($path);
             }
+            
         });
     }
 
