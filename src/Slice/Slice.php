@@ -84,7 +84,7 @@ class Slice extends Iterator
                 \substr_count($value, '%') === 2)
             {
                 $path  = \substr($value, 1, -1);
-                $value = $slice->getData($path);
+                $value = $slice->getRequired($path);
             }
         });
     }
