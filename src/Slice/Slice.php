@@ -19,12 +19,12 @@ use Bavix\Iterator\Iterator;
  * @method string getIP($offset)
  * @method string getURL($offset)
  *
- * @method int getIntRequired($offset)
- * @method float getFloatRequired($offset)
- * @method bool getBoolRequired($offset)
- * @method string getEmailRequired($offset)
- * @method string getIPRequired($offset)
- * @method string getURLRequired($offset)
+ * @method int getRequiredInt($offset)
+ * @method float getRequiredFloat($offset)
+ * @method bool getRequiredBool($offset)
+ * @method string getRequiredEmail($offset)
+ * @method string getRequiredIP($offset)
+ * @method string getRequiredURL($offset)
  */
 class Slice extends Iterator
 {
@@ -134,6 +134,7 @@ class Slice extends Iterator
 
         if (\strpos($name, 'Required') !== false)
         {
+            $name = \str_replace('Required', '', $name);
             return Filter::$name($this->getRequired($offset));
         }
 
