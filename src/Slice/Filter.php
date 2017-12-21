@@ -9,12 +9,12 @@ use Bavix\Exceptions\Invalid;
  *
  * @package Bavix\Slice
  *
- * @method static int getInt(Slice $slice, $offset)
- * @method static float getFloat(Slice $slice, $offset)
- * @method static bool getBool(Slice $slice, $offset)
- * @method static string getEmail(Slice $slice, $offset)
- * @method static string getIP(Slice $slice, $offset)
- * @method static string getURL(Slice $slice, $offset)
+ * @method static int getInt(mixed $data, $offset)
+ * @method static float getFloat(mixed $data, $offset)
+ * @method static bool getBool(mixed $data, $offset)
+ * @method static string getEmail(mixed $data, $offset)
+ * @method static string getIP(mixed $data, $offset)
+ * @method static string getURL(mixed $data, $offset)
  */
 class Filter
 {
@@ -73,14 +73,8 @@ class Filter
             throw new Invalid('Filter `' . $name . '` not found');
         }
 
-        /**
-         * @var Slice  $slice
-         * @var string $offset
-         */
-        list ($slice, $offset) = $arguments;
-
         return static::filterVariable(
-            $slice->getData($offset),
+            $arguments[0],
             static::$filters[$name],
             static::$defaults[$name]
         );

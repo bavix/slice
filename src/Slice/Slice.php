@@ -18,6 +18,13 @@ use Bavix\Iterator\Iterator;
  * @method string getEmail($offset)
  * @method string getIP($offset)
  * @method string getURL($offset)
+ *
+ * @method int getIntRequired($offset)
+ * @method float getFloatRequired($offset)
+ * @method bool getBoolRequired($offset)
+ * @method string getEmailRequired($offset)
+ * @method string getIPRequired($offset)
+ * @method string getURLRequired($offset)
  */
 class Slice extends Iterator
 {
@@ -123,7 +130,14 @@ class Slice extends Iterator
      */
     public function __call($name, $arguments)
     {
-        return Filter::$name($this, ...$arguments);
+        list($offset) = $arguments;
+
+        if (\strpos($name, 'Required') !== false)
+        {
+            return Filter::$name($this->getRequired($offset));
+        }
+
+        return Filter::$name($this->getData($offset));
     }
 
     /**
