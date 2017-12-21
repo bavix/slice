@@ -7,6 +7,18 @@ use Bavix\Helpers\Arr;
 use Bavix\Helpers\Str;
 use Bavix\Iterator\Iterator;
 
+/**
+ * Class Slice
+ *
+ * @package Bavix\Slice
+ *
+ * @method int getInt($offset)
+ * @method float getFloat($offset)
+ * @method bool getBool($offset)
+ * @method string getEmail($offset)
+ * @method string getIP($offset)
+ * @method string getURL($offset)
+ */
 class Slice extends Iterator
 {
 
@@ -83,6 +95,7 @@ class Slice extends Iterator
             if (\is_object($value) && $value instanceof Raw)
             {
                 $value = $value->getData();
+
                 return;
             }
 
@@ -98,8 +111,19 @@ class Slice extends Iterator
                 $path  = Str::sub($value, 1, -1);
                 $value = $slice->getRequired($path);
             }
-            
+
         });
+    }
+
+    /**
+     * @param string $name
+     * @param array  $arguments
+     *
+     * @return mixed
+     */
+    public function __call($name, $arguments)
+    {
+        return Filter::$name($this, ...$arguments);
     }
 
     /**
