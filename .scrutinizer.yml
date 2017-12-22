@@ -4,20 +4,18 @@ build:
      php:
        version: 7.1
 
-  tests:
-    override:
-      -
-        command: 'vendor/bin/phpunit --coverage-clover=some-file'
-        coverage:
-          file: 'some-file'
-          format: 'clover'
-
   nodes:
     analysis:
       project_setup:
         override: true
       tests:
-        override: [php-scrutinizer-run]
+        override: 
+          - php-scrutinizer-run
+          - 
+            command: 'vendor/bin/phpunit --coverage-clover=some-file'
+            coverage:
+              file: 'some-file'
+              format: 'clover'
 
 filter:
   excluded_paths: [demo/*, tests/*, docs/*]
