@@ -39,8 +39,7 @@ class Slice extends Iterator
     {
         parent::__construct($data);
 
-        if (null !== $parameters)
-        {
+        if (null !== $parameters) {
             $this->walk($parameters);
         }
     }
@@ -52,8 +51,7 @@ class Slice extends Iterator
      */
     public static function from($data): self
     {
-        if ($data instanceof self)
-        {
+        if ($data instanceof self) {
             return $data;
         }
 
@@ -69,15 +67,13 @@ class Slice extends Iterator
      */
     public function asArray($depth = INF)
     {
-        if (!$depth || $depth <= 0)
-        {
+        if (!$depth || $depth <= 0) {
             return $this->data;
         }
 
         $results = [];
 
-        foreach (parent::asArray() as $key => $data)
-        {
+        foreach (parent::asArray() as $key => $data) {
             $results[$key] =
                 $data instanceof self ?
                     $data->asArray(\is_bool($depth) ? INF : --$depth) :
@@ -92,33 +88,28 @@ class Slice extends Iterator
      */
     protected function walk($slice)
     {
-        if (\is_array($slice))
-        {
+        if (\is_array($slice)) {
             $slice = $this->make($slice);
         }
 
         Arr::walkRecursive($this->data, function (&$value) use ($slice) {
 
-            if (\is_object($value) && $value instanceof Raw)
-            {
+            if (\is_object($value) && $value instanceof Raw) {
                 $value = $value->getData();
 
                 return;
             }
 
-            if (empty($value) || !\is_string($value))
-            {
+            if (empty($value) || !\is_string($value)) {
                 return;
             }
 
             if (Str::first($value) === '%' &&
                 Str::last($value) === '%' &&
-                \substr_count($value, '%') === 2)
-            {
+                \substr_count($value, '%') === 2) {
                 $path  = Str::sub($value, 1, -1);
                 $value = $slice->getRequired($path);
             }
-
         });
     }
 
@@ -132,8 +123,7 @@ class Slice extends Iterator
     {
         list($offset) = $arguments;
 
-        if (\strpos($name, 'Required') !== false)
-        {
+        if (\strpos($name, 'Required') !== false) {
             $name = \str_replace('Required', '', $name);
             return Filter::$name($this->getRequired($offset));
         }
@@ -146,8 +136,7 @@ class Slice extends Iterator
      */
     public function asGenerator()
     {
-        foreach ($this->data as $key => $object)
-        {
+        foreach ($this->data as $key => $object) {
             yield $key => $this->make($object);
         }
     }
@@ -242,8 +231,7 @@ class Slice extends Iterator
      */
     public function offsetSet($offset, $value)
     {
-        if (null === $offset)
-        {
+        if (null === $offset) {
             throw new Exceptions\Invalid('Slice does not support NULL');
         }
 
@@ -257,5 +245,4 @@ class Slice extends Iterator
     {
         Arr::remove($this->data, $offset);
     }
-
 }

@@ -27,5 +27,4 @@ class Raw
     {
         return $this->data;
     }
-
 }

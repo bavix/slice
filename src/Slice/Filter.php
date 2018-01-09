@@ -68,8 +68,7 @@ class Filter
     public static function __callStatic($name, $arguments)
     {
 
-        if (empty(static::$filters[$name]))
-        {
+        if (empty(static::$filters[$name])) {
             throw new Invalid('Filter `' . $name . '` not found');
         }
 
@@ -78,7 +77,5 @@ class Filter
             static::$filters[$name],
             static::$defaults[$name]
         );
-
     }
-
 }

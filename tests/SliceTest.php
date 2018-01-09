@@ -103,26 +103,22 @@ class SliceTest extends Unit
 
         $authors = [];
 
-        foreach (range(1, 10) as $item)
-        {
+        foreach (range(1, 10) as $item) {
             $authors[] = $author;
         }
 
         $this->slice->setData($authors);
 
-        foreach ($this->slice->asArray(0) as $slice)
-        {
+        foreach ($this->slice->asArray(0) as $slice) {
             $this->assertInstanceOf(Slice::class, $slice);
         }
 
-        foreach ($this->slice->asArray(1) as $arr)
-        {
+        foreach ($this->slice->asArray(1) as $arr) {
             $this->assertTrue(\is_array($arr));
             $this->assertInstanceOf(Slice::class, $arr['test']);
         }
 
-        foreach ($this->slice->asArray() as $arr)
-        {
+        foreach ($this->slice->asArray() as $arr) {
             $this->assertTrue(\is_array($arr));
             $this->assertTrue(\is_array($arr['test']));
         }
@@ -187,8 +183,7 @@ class SliceTest extends Unit
         $slice = $this->slice->make($this->matrix);
         $rows  = $slice->asObject();
 
-        foreach ($rows as $key => $row)
-        {
+        foreach ($rows as $key => $row) {
             $this->assertInstanceOf(Slice::class, $row);
             $this->assertArraySubset(
                 $this->matrix[$key],
@@ -209,5 +204,4 @@ class SliceTest extends Unit
             $result
         );
     }
-
 }
