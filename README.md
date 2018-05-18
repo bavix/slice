@@ -18,3 +18,8 @@ Slice - Data representation library.
 * **Version**: [![Latest Stable Version](https://poser.pugx.org/bavix/slice/v/stable)](https://packagist.org/packages/bavix/slice)
 * **PHP Version**: 7.1+ 
 * **[Composer](https://getcomposer.org/):** `composer require bavix/slice`
+
+---
+Supported by
+
+[![Supported by JetBrains](https://cdn.rawgit.com/bavix/development-through/46475b4b/jetbrains.svg)](https://www.jetbrains.com/)
